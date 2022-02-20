@@ -6,29 +6,30 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Container } from "@material-ui/core";
+import * as React from "react";
+import { Helmet } from "react-helmet-async";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 
-import { GlobalStyle } from 'styles/global-styles';
-
-import { HomePage } from './containers/HomePage/Loadable';
-import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import { GlobalStyle } from "styles/global-styles";
+import NavigationBar from "./components/navigation-bar";
+import { Routes } from "./routes";
+import HomePage from "./views/pages/HomePage";
 
 export function App() {
   return (
     <BrowserRouter>
+      {/* Helmet allows to set meta tags that will be read by search engine crawlsers. */}
       <Helmet
         titleTemplate="%s - React Boilerplate"
         defaultTitle="React Boilerplate"
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <NavigationBar />
+      <Container>
+        <Routes />
+      </Container>
       <GlobalStyle />
     </BrowserRouter>
   );

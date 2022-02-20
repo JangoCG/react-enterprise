@@ -5,27 +5,27 @@
  * code.
  */
 
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import * as serviceWorker from 'serviceWorker';
-import 'sanitize.css/sanitize.css';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import * as serviceWorker from "serviceWorker";
+import "sanitize.css/sanitize.css";
 
 // Import root app
-import { App } from 'app';
+import { App } from "app";
 
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from "react-helmet-async";
 
-import { configureAppStore } from 'store/configureStore';
+import { configureAppStore } from "store/configureStore";
 
 // Initialize languages
-import './locales/i18n';
+import "./locales/i18n";
 
 const store = configureAppStore();
-const MOUNT_NODE = document.getElementById('root') as HTMLElement;
+const MOUNT_NODE = document.getElementById("root");
 
 interface Props {
   Component: typeof App;
@@ -40,17 +40,21 @@ const ConnectedApp = ({ Component }: Props) => (
   </Provider>
 );
 const render = (Component: typeof App) => {
-  ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
+  if (MOUNT_NODE !== null) {
+    ReactDOM.render(<ConnectedApp Component={Component} />, MOUNT_NODE);
+  }
 };
 
 if (module.hot) {
   // Hot reloadable translation json files and app
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept(['./app', './locales/i18n'], () => {
-    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    const App = require('./app').App;
-    render(App);
+  module.hot.accept(["./app", "./locales/i18n"], () => {
+    if (MOUNT_NODE !== null) {
+      ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+      const App = require("./app").App;
+      render(App);
+    }
   });
 }
 
