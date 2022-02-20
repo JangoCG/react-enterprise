@@ -1,10 +1,10 @@
-import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import LanguageDetector from 'i18next-browser-languagedetector';
+import LanguageDetector from "i18next-browser-languagedetector";
 
-import en from './en/translation.json';
-import { ConvertedToObjectType } from './types';
+import en from "./en/translation.json";
+import { ConvertedToObjectType } from "./types";
 
 const translationsJson = {
   en: {
@@ -24,9 +24,9 @@ export const translations: ConvertedToObjectType<TranslationResource> = {} as an
  * along with type-safety
  */
 const convertLanguageJsonToObject = (obj: any, dict: {}, current?: string) => {
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     const currentLookupKey = current ? `${current}.${key}` : key;
-    if (typeof obj[key] === 'object') {
+    if (typeof obj[key] === "object") {
       dict[key] = {};
       convertLanguageJsonToObject(obj[key], dict[key], currentLookupKey);
     } else {
@@ -46,10 +46,10 @@ export const i18n = i18next
     {
       resources: translationsJson,
 
-      fallbackLng: 'en',
+      fallbackLng: "en",
       debug:
-        process.env.NODE_ENV !== 'production' &&
-        process.env.NODE_ENV !== 'test',
+        process.env.NODE_ENV !== "production" &&
+        process.env.NODE_ENV !== "test",
 
       interpolation: {
         escapeValue: false, // not needed for react as it escapes by default
@@ -57,5 +57,5 @@ export const i18n = i18next
     },
     () => {
       convertLanguageJsonToObject(en, translations);
-    },
+    }
   );

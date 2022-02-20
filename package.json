@@ -68,6 +68,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "backend": "json-server --watch db.json --port 3005 --delay=1000",
     "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/test-generators.ts",
     "cypress:open": "cypress open",
     "start:prod": "npm run build && serve -s build",
@@ -94,6 +95,12 @@
   "engines": {
     "npm": ">=6.4.1",
     "node": ">=10.13.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
