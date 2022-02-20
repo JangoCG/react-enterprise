@@ -13,6 +13,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 import { GlobalStyle } from "styles/global-styles";
 import NavigationBar from "./components/navigation-bar";
+import MainLayout from "./layouts/main-layout";
 import { Routes } from "./routes";
 import HomePage from "./views/pages/HomePage";
 
@@ -26,10 +27,10 @@ export function App() {
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-      <NavigationBar />
-      <Container>
+      {/* instead of main layout, there was a container here before */}
+      <MainLayout>
         <Routes />
-      </Container>
+      </MainLayout>
       <GlobalStyle />
     </BrowserRouter>
   );
