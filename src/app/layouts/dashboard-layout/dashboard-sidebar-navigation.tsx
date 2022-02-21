@@ -1,18 +1,39 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import {
+  Collapse,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import { useRouteMatch } from "react-router";
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { PieChart as PieChartIcon } from "react-feather";
-import { Divider, ListSubheader } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import {
+  ChevronDown as ChevronDownIcon,
+  ChevronUp as ChevronUpIcon,
+  FilePlus as FilePlusIcon,
+  List as ListIcon,
+  LogOut as LogOutIcon,
+  PieChart as PieChartIcon,
+  ShoppingCart as ShoppingCartIcon,
+} from "react-feather";
+import { useRouteMatch } from "react-router";
+import { Link } from "react-router-dom";
 
 const DashboardSidebarNavigation = () => {
   const classes = useStyles();
   const { url } = useRouteMatch();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
   useEffect(() => {}, []);
   return (
     <>
@@ -45,6 +66,37 @@ const DashboardSidebarNavigation = () => {
                   <ListItemText primary={"Dashboard"} />
                 </ListItem>
               </Link>
+
+              {/* Collapsable Menu */}
+              <ListSubheader>Management</ListSubheader>
+              <ListItem button onClick={handleClick}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              </ListItem>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Link className={classes.link} to={`${url}/list-products`}>
+                    <ListItem button className={classes.nested}>
+                      <ListItemIcon>
+                        <ListIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="List Products" />
+                    </ListItem>
+                  </Link>
+                  <Link className={classes.link} to={`${url}/create-product`}>
+                    <ListItem button className={classes.nested}>
+                      <ListItemIcon>
+                        <FilePlusIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Create Product" />
+                    </ListItem>
+                  </Link>
+                </List>
+              </Collapse>
+
               <Link className={classes.link} to={`${url}/settings-and-privacy`}>
                 <ListItem button>
                   <ListItemIcon>
@@ -56,7 +108,7 @@ const DashboardSidebarNavigation = () => {
               <a className={classes.link} href={"/"}>
                 <ListItem button>
                   <ListItemIcon>
-                    <ExitToAppIcon />
+                    <LogOutIcon />
                   </ListItemIcon>
                   <ListItemText primary={"logout"} />
                 </ListItem>
@@ -85,6 +137,10 @@ const useStyles = makeStyles((theme) =>
     drawerContainer: {
       overflow: "auto",
     },
+    nested: {
+      paddingLeft: theme.spacing(4),
+    },
+
     toolbar: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
